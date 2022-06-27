@@ -1,47 +1,80 @@
-import React from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
+import './index.css';
+
+const path = require('path')
 
 
-export default function App() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [country, setCountry] = React.useState("");
-  const [acceptedTerms, setAcceptedTerms] = React.useState(false);
+require('dotenv').config({path:'../../.env'})
+console.log(process.env)
 
-  const handleSubmit = (event) => {
-    console.log(`
-      Email: ${email}
-      Password: ${password}
-      Country: ${country}
-      Accepted Terms: ${acceptedTerms}
-    `);
+function App() {
 
-    event.preventDefault();
-  }
+  const [name, setName] = useState('');
+	const [age, setAge] = useState('');
+	const [salary, setSalary] = useState('');
+	const [hobby, setHobby] = useState('');
+  const API = process.env.API_KEY;
+
+  const handleSubmit = (e) => {
+		e.preventDefault();
+
+		const objt = { name, age, salary, hobby };
+
+		axios
+			.post(
+				API,
+				objt
+			)
+			.then((response) => {
+				console.log(response);
+			});
+	};
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Create Account</h1>
+      <h1>Import Product</h1>
 
       <label>
-        Email:
+      name:
         <input
-          name="email"
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
+          name="name"
+          type="string"
+          value={name}
+          onChange={e => setName(e.target.value)}
           required />
       </label>
 
       <label>
-        Password:
+        age:
         <input
-          name="password"
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
+          name="age"
+          type="number"
+          value={age}
+          onChange={e => setAge(e.target.value)}
           required />
       </label>
 
+      <label>
+      salary:
+        <input
+          name="salary"
+          type="number"
+          value={salary}
+          onChange={e => setSalary(e.target.value)}
+          required />
+      </label>
+
+      <label>
+      hobby:
+        <input
+          name="hobby"
+          type="string"
+          value={hobby}
+          onChange={e => setHobby(e.target.value)}
+          required />
+      </label>
+      {/*
       <label>
         <input
           name="acceptedTerms"
@@ -49,9 +82,11 @@ export default function App() {
           onChange={e => setAcceptedTerms(e.target.value)}
           required />
         I accept the terms of service
-      </label>
+      </label>*/}
 
-      <button>Submit</button>
+      <button color="blue" type="submit" onClick={handleSubmit}>Submit</button>
     </form>
   );
 }
+
+export default App;
