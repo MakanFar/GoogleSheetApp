@@ -6,16 +6,19 @@ import '../index.css';
 const AddItem = () => {
 
 
-  const [name, setName] = useState('');
-	const [age, setAge] = useState('');
-	const [salary, setSalary] = useState('');
-	const [hobby, setHobby] = useState('');
+  const [کالا, setProduct] = useState('');
+	const [تاریخ, setDate] = useState('');
+	const [مشتری, setName] = useState('');
+	const [خریدلیر, setTRY] = useState('');
+  const [تبدیل, setRate] = useState('');
+  const [فروش, setSell] = useState('');
+  const [پرداخت, setPaid] = useState('');
   const API = process.env.REACT_APP_API_SHEET;
 
   const handleSubmit = (e) => {
 		e.preventDefault();
 
-		const objt = { name, age, salary, hobby };
+		const objt = { کالا, تاریخ, مشتری, خریدلیر, تبدیل, فروش,پرداخت };
 
 		axios
 			.post(
@@ -48,54 +51,77 @@ const AddItem = () => {
       <h1>Import Product</h1>
 
       <label>
-      name:
+      Product Name:
         <input
-          name="name"
+          name="کالا"
           type="string"
-          value={name}
+          value={کالا}
+          onChange={e => setProduct(e.target.value)}
+          required />
+      </label>
+
+      <label>
+      Customer Name:
+        <input
+          name="مشتری"
+          type="string"
+          value={مشتری}
           onChange={e => setName(e.target.value)}
           required />
       </label>
 
       <label>
-        age:
+      Date:
         <input
-          name="age"
+          name="تاریخ"
+          type="Date"
+          value={تاریخ}
+          onChange={e => setDate(e.target.value)}
+          required />
+      </label>
+
+      <label>
+        BoughtTRY:
+        <input
+          name="خریدلیر"
           type="number"
-          value={age}
-          onChange={e => setAge(e.target.value)}
+          value={خریدلیر}
+          onChange={e => setTRY(e.target.value)}
           required />
       </label>
 
       <label>
-      salary:
+      Exchange Rate:
         <input
-          name="salary"
+          name="تبدیل"
           type="number"
-          value={salary}
-          onChange={e => setSalary(e.target.value)}
+          value={تبدیل}
+          onChange={e => setRate(e.target.value)}
           required />
       </label>
 
+
       <label>
-      hobby:
+      Sold:
         <input
-          name="hobby"
-          type="string"
-          value={hobby}
-          onChange={e => setHobby(e.target.value)}
+          name="فروش"
+          type="number"
+          value={فروش}
+          onChange={e => setSell(e.target.value)}
           required />
       </label>
 
-      {/*
+
       <label>
+      Paid:
         <input
-          name="acceptedTerms"
-          type="checkbox"
-          onChange={e => setAcceptedTerms(e.target.value)}
+          name="پرداخت"
+          type="number"
+          value={پرداخت}
+          onChange={e => setPaid(e.target.value)}
           required />
-        I accept the terms of service
-      </label>*/}
+      </label>
+
 
       <button color="blue" type="submit" onClick={handleSubmit}>Submit</button>
     </form>
