@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './index.css';
-
-const path = require('path')
+import '../index.css';
 
 
-require('dotenv').config({path:'../../.env'})
-console.log(process.env)
+const AddItem = () => {
 
-function App() {
 
   const [name, setName] = useState('');
 	const [age, setAge] = useState('');
 	const [salary, setSalary] = useState('');
 	const [hobby, setHobby] = useState('');
-  const API = process.env.API_KEY;
+  const API = process.env.REACT_APP_API_SHEET;
 
   const handleSubmit = (e) => {
 		e.preventDefault();
@@ -25,10 +21,26 @@ function App() {
 			.post(
 				API,
 				objt
-			)
-			.then((response) => {
-				console.log(response);
-			});
+			).then(res=>{
+        console.log(res);
+        console.log(res.data);
+        window.location = "/" 
+        alert("Item was added!")
+      }).catch(function (error) {
+        if (error.response) {
+          
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+         
+          console.log(error.request);
+        } else {
+          
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+      });
 	};
 
   return (
@@ -74,6 +86,7 @@ function App() {
           onChange={e => setHobby(e.target.value)}
           required />
       </label>
+
       {/*
       <label>
         <input
@@ -89,4 +102,4 @@ function App() {
   );
 }
 
-export default App;
+export default AddItem;

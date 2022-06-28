@@ -1,14 +1,37 @@
-import React from "react";
-import {useLocation,useNavigate,useParams} from "react-router-dom";
+import React, { useCallback, useContext } from "react";
 import '../index.css';
+import { AuthContext } from "../contexts/AuthContext";
+import app from "../firebase-config";
+import AddItem from './AddItem'
 
 
-const Login = () => {
+const Login = ({ history }) => {
+  const handleLogin = useCallback(
+    async event => {
+      event.preventDefault();
+      const { email, password } = event.target.elements;
+      try {
+        await app
+          .auth()
+          .signInWithEmailAndPassword(email.value, password.value);
+        history.push("/");
+      } catch (error) {
+        alert("Could not Login!");
+      }
+    },
+    [history]
+  );
+
+  const { currentUser } = useContext(AuthContext);
+
+  if (currentUser) {
+    return <AddItem />;
+  }
 
   return (
     
-      <form >
-        <h1>Log in</h1>
+      <form onSubmit={handleLogin}>
+        <h1>Login</h1>
         <label>
           Email
           <input name="email" type="email" placeholder="Email" />
